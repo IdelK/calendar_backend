@@ -1,10 +1,35 @@
-const {response} = require('express');
+const { response } = require("express");
 
+const crearUsuario = (req, res = response) => {
 
-const crearUsuario= (req, res=response) => {
-    res.json({
-      ok: true,
-      msg: 'registro'
-    })}
+  const {name, email,password}=req.body;
 
-    module.exports = {crearUsuario};
+  res.json({
+    ok: true,
+    msg: "registro", 
+    name,
+    email,
+    password 
+  });
+};
+
+const loginUsuario = (req, res = response) => {
+
+  const { email,password}=req.body;
+
+  res.json({
+    ok: true,
+    msg: "login",
+    email,
+    password
+  });
+};
+
+const revalidarToken = (req, res = response) => {
+  res.json({
+    ok: true,
+    msg: "token",
+  });
+};
+
+module.exports = { crearUsuario, loginUsuario, revalidarToken };
