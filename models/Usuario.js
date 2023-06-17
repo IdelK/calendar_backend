@@ -1,4 +1,4 @@
-const {Schema ,model}= require(' mongoose');
+const {Schema ,model}= require('mongoose');
 
 const UsuarioSchema=Schema({
 
@@ -12,7 +12,7 @@ const UsuarioSchema=Schema({
         require:true,
         unique:true
     },
-    name:{
+    password:{
         type: String,
         require:true,
     }
