@@ -4,6 +4,7 @@ const { genJWT } = require("../helpers/jwt");
 const bcrypt = require("bcryptjs");
 const Usuario = require("../models/Usuario");
 
+//CREAR USUARIO
 const crearUsuario = async (req, res = response) => {
   const { email, password } = req.body;
 
@@ -25,14 +26,15 @@ const crearUsuario = async (req, res = response) => {
       await usuario.save();
 
       //generar JWT
-     const token = await genJWT(toString(usuario.id),toString(usuario.name));
+      const token = await genJWT(usuario.id, usuario.name);
+      console.log(token);
 
       res.status(201).json({
         ok: true,
         uid: usuario.id,
         name: usuario.name,
         password: usuario.password,
-       // token,
+        token,
       });
     }
   } catch (error) {
@@ -43,7 +45,7 @@ const crearUsuario = async (req, res = response) => {
   }
 };
 
-//**********login***** */
+//LOGIN
 const loginUsuario = async (req, res = response) => {
   const { email, password } = req.body;
 
@@ -61,7 +63,7 @@ const loginUsuario = async (req, res = response) => {
     }
 
     //confirmar los passwords
-    const validPassword = bcrypt.compare(password, usuario.password);
+    const validPassword = bcrypt.compare(toString(password), usuario.password);
     if (!validPassword) {
       return (
         res.status(400),
@@ -74,11 +76,13 @@ const loginUsuario = async (req, res = response) => {
 
     //generar JWT
     const token = await genJWT(usuario.id, usuario.name);
+    console.log(token);
 
     res.json({
       ok: true,
       uid: usuario.uid,
       name: usuario.name,
+      token,
     });
   } catch (error) {
     res.status(500).json({
@@ -87,9 +91,6 @@ const loginUsuario = async (req, res = response) => {
     });
   }
 };
-
-
-
 
 const revalidarToken = (req, res = response) => {
   const { email, password } = req.body;
