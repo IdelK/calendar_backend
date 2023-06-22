@@ -28,7 +28,7 @@ router.post(
     validarCampos,
   ],
   crearUsuario
-);
+); 
 
 router.get("/renew", revalidarToken);
 
