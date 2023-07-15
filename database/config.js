@@ -7,8 +7,9 @@ const dbConnection=async()=>{
  
         
     } catch (error) {
-        confirm(error);
-        throw new Error('Error connecting to');
+      //  confirm(error);
+      confirm(error) 
+        throw new Error('Error connecting to'); 
     }
 };
 
