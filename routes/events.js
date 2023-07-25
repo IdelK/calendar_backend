@@ -19,10 +19,7 @@ const router = Router();
 //cuando se usa router.use cualquier peticion debajo pasa por el middleware
 router.use(validarJWT);
 
-//obtener eventos
-router.get("/", getEventos);
-
-//crear eventos
+//create eventos
 router.post(
   "/",
   [
@@ -34,10 +31,13 @@ router.post(
   crearEvento
 );
 
-//actualizar eventos
+//read eventos
+router.get("/", getEventos);
+
+//update eventos
 router.put("/:id", actualizarEvento);
 
-//eliminar eventoss
+//delete eventoss
 router.delete("/:id", eliminarEvento);
 
 module.exports = router;

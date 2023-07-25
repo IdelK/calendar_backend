@@ -1,23 +1,16 @@
 const { response } = require("express");
 const Evento = require("../models/Evento");
 
-//GET EVENTOS
-const getEventos = async (req, res = response) => {
-  const eventos = await Evento.find();
-  res.json({
-    ok: true,
-    eventos,
-  });
-};
 
-//CREAR EVENTOS
+
+
+//CREATE EVENTO
 const crearEvento = async (req, res = response) => {
   const evento = new Evento(req.body);
 
   try {
     //si a evento.user le asingo req.uid me captura  el catch por undifine
-    evento.user = evento.id;
-  //  console.log(" el evento es : ", evento.id, " ", evento.user);
+    evento.user = evento.id;  //  console.log(" el evento es : ", evento.id, " ", evento.user);
     const eventoGuardado = await evento.save();
 
     res.json({
@@ -33,9 +26,18 @@ const crearEvento = async (req, res = response) => {
   }
 };
 
-//ACTUALIZAR EVENTOS
+//READ EVENTOS
+const getEventos = async (req, res = response) => {
+  const eventos = await Evento.find();
+  res.json({
+    ok: true,
+    eventos,
+  });
+};
+
+//UPDATE EVENTOS
 const actualizarEvento = async (req, res = response) => {
-  const eventoId = req.params.id;//ld que viene por el URL 
+  const eventoId = req.params.id;//lo que viene por el URL 
  
     try {
     const evento = await Evento.findById(eventoId);
@@ -69,11 +71,12 @@ const actualizarEvento = async (req, res = response) => {
     });
   }
 };
-
-//ELIMINAR EVENTOS
-const eliminarEvento = async(req, res = response) => {
-  const eventoId = req.params.id;//ld que viene por el URL 
  
+//DELETE EVENTO
+const eliminarEvento = async(req, res = response) => { 
+  const eventoId = req.params.id;//lo  que viene por el URL  
+  //const uid = req.id;           //id del usuario 
+ //console.log(uid,eventoId);
   try {
   const evento = await Evento.findById(eventoId);
 
@@ -90,7 +93,7 @@ const eliminarEvento = async(req, res = response) => {
     });
    } 
 
-  await Evento.findByIdAndDelete(eventoId);
+  await Evento.findByIdAndDelete(eventoId); 
 
   res.json({ 
     ok: true

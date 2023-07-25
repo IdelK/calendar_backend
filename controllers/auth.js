@@ -92,6 +92,7 @@ const loginUsuario = async (req, res = response) => {
   }
 };
 
+//REVALIDAR TOKEN
 const revalidarToken = async (req, res = response) => {
   const { uid, name } = req;
 
