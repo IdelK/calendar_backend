@@ -2,7 +2,7 @@ const { response } = require("express");
 const { genJWT } = require("../helpers/jwt");
 
 const bcrypt = require("bcryptjs");
-const Usuario = require("../models/Usuario");
+const Usuario = require("../models/Usuario"); 
 
 //CREAR USUARIO
 const crearUsuario = async (req, res = response) => {
