@@ -27,7 +27,6 @@ const crearUsuario = async (req, res = response) => {
 
       //generar JWT
       const token = await genJWT(usuario.id, usuario.name);
-      console.log(token);
 
       res.status(201).json({
         ok: true,
@@ -45,12 +44,15 @@ const crearUsuario = async (req, res = response) => {
   }
 };
 
+
+
+
 //LOGIN
 const loginUsuario = async (req, res = response) => {
   const { email, password } = req.body;
 
   try {
-    const usuario = await Usuario.findOne({ email: email });
+    let usuario = await Usuario.findOne({ email }); 
 
     if (!usuario) {
       return (
@@ -63,7 +65,7 @@ const loginUsuario = async (req, res = response) => {
     }
 
     //confirmar los passwords
-    const validPassword = bcrypt.compare(toString(password), usuario.password);
+    const validPassword = bcrypt.compare(toString(password), usuario.password);//hay que revisar aqui
     if (!validPassword) {
       return (
         res.status(400),
@@ -76,32 +78,42 @@ const loginUsuario = async (req, res = response) => {
 
     //generar JWT
     const token = await genJWT(usuario.id, usuario.name);
-    console.log(token);
 
     res.json({
       ok: true,
-      uid: usuario.uid,
+      uid: usuario.id,
       name: usuario.name,
       token,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(500).json({ 
       ok: false,
       msg: "vaya con el administrador",
     });
-  }
+   }
 };
+
+
 
 //REVALIDAR TOKEN
 const revalidarToken = async (req, res = response) => {
-  const { uid, name } = req;
+  const { name } = req;
+  const  {uid}  = req;
+  // req.body sirve para hacer pruebas en  postman
+  // req lo lee del endpoint que viene del frontEnd
+
+  //const uitStr=toString(uid);
+  
 
   //generar token
   const token = await genJWT(uid, name);
 
   res.status(201).json({
     ok: true,
-    msg: token,
+    uid,
+    name,
+    token,
+
   });
 };
 
